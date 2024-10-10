@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Half and Full Circles</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Full circle */
+        .full-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px solid black;
+            position: relative;
+            margin-right: 10px;
+        }
+
+        /* Inner circle 100px */
+        .inner-circle-100 {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Inner circle 70px */
+        .inner-circle-70 {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background-color:black ;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Full Circle -->
+    <div id="circle1" class="full-circle">
+        <!-- Inner Circle 100px -->
+        <div id="circle2" class="inner-circle-100">
+            <!-- Inner Circle 70px -->
+            <div id="circle3" class="inner-circle-70"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sequence of circle IDs for color transfer
+    const circles = ["circle3", "circle2" ,"circle1" ];
+    let currentIndex = 0;
+
+    // Function to change the background color
+    function transferColor() {
+        // Reset all circles to white
+        circles.forEach(circleId => {
+            document.getElementById(circleId).style.backgroundColor = "white";
+        });
+
+        // Set the background of the current circle to black
+        document.getElementById(circles[currentIndex]).style.backgroundColor = "black";
+
+        // Move to the next circle in the sequence
+        currentIndex = (currentIndex + 1) % circles.length;
+    }
+
+    // Start the color transfer sequence after 1 minute and repeat every 1 minute
+    setInterval(transferColor, 1000); // 60000 ms = 1 minute
+</script>
+</body>
+</html>
