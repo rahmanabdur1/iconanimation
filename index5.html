@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Half and Full Circles</title>
     <style>
         body {
@@ -22,65 +22,103 @@
             width: 150px;
             height: 150px;
             border-radius: 50%;
+            overflow: hidden;
             border: 2px solid black;
-            transition: background-color 1s, width 1s, height 1s;
             position: relative;
+        }
+
+        .full-circle::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: black; /* Color when active */
+            border-radius: 50%;
+            transition: all 0.5s ease; /* Smooth transition */
         }
 
         .half-circle-right {
             width: 75px;
             height: 150px;
             border-radius: 75px 0 0 75px;
-            transition: background-color 1s, width 1s, height 1s;
             border: 2px solid black;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .half-circle-right::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: black; /* Color when active */
+            border-radius: 75px 0 0 75px;
+            transition: all 0.5s ease; /* Smooth transition */
         }
 
         .half-circle-filled-right {
             width: 75px;
             height: 150px;
             border-radius: 75px 0 0 75px;
-            background-color: #333;
-            transition: background-color 1s, width 1s, height 1s;
             border: 2px solid black;
+            overflow: hidden;
+            position: relative;
         }
 
+        .half-circle-filled-right::before { /* Fixed typo here */
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: black; /* Color when active */
+            border-radius: 75px 0 0 75px;
+            transition: all 0.5s ease; /* Smooth transition */
+        }
+
+        .active::before {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <!-- Full Circle -->
+        <div id="circle1" class="full-circle"></div>
 
-<div class="container">
-    <!-- Full Circle -->
-    <div id="circle1" class="full-circle"></div>
+        <!-- Half Circle (border only) -->
+        <div id="circle2" class="half-circle-right"></div>
 
-    <!-- Half Circle (border only) -->
-    <div id="circle2" class="half-circle-right"></div>
+        <!-- Half Circle (filled) -->
+        <div id="circle3" class="half-circle-filled-right"></div>
+    </div>
 
-    <!-- Half Circle (filled) -->
-    <div id="circle3" class="half-circle-filled-right"></div>
-</div>
+    <script>
+        // Sequence of circle IDs for color transfer
+        const circles = ["circle3", "circle2", "circle1"];
+        let currentIndex = 0;
 
-<script>
-    // Sequence of circle IDs for color transfer
-    const circles = ["circle3", "circle2", "circle1", ];
-    let currentIndex = 0;
+        function transferColor() {
+            // Remove 'active' class from all circles
+            circles.forEach((circleId) => {
+                document.getElementById(circleId).classList.remove("active");
+            });
 
-    // Function to change the background color
-    function transferColor() {
-        // Reset all circles to white
-        circles.forEach(circleId => {
-            document.getElementById(circleId).style.backgroundColor = "white";
-        });
+            // Set the current circle to active
+            document.getElementById(circles[currentIndex]).classList.add("active");
 
-        // Set the background of the current circle to black
-        document.getElementById(circles[currentIndex]).style.backgroundColor = "black";
+            // Move to the next circle in the sequence
+            currentIndex = (currentIndex + 1) % circles.length;
+        }
 
-        // Move to the next circle in the sequence
-        currentIndex = (currentIndex + 1) % circles.length;
-    }
-
-    // Start the color transfer sequence after 1 minute and repeat every 1 minute
-    setInterval(transferColor, 1000); // 60000 ms = 1 minute
-</script>
-
+        // Start the color transfer sequence after 1 second and repeat every 1 second
+        setInterval(transferColor, 1000); // 1000 ms = 1 second
+    </script>
 </body>
 </html>
